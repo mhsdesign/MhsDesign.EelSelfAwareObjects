@@ -1,37 +1,39 @@
 # MhsDesign.EelSelfAwareObjects
 
-> !!! EXPERIMENTAL Package to tackle the problem of not having a good way to extract variables in eel.
+> !!! EXPERIMENTAL Package to tackle the problem of not having a good way to extract variables in EEL.
 
 
-this will you allow writing crazy things:
+this will allow you to use objects a bit like you're used to from javascript-world.
 
-```
-root = ${call({
-    fooVariable: 'FOO',
-    nodeVariable: q(node).property('title'),
-    
-    getValueX: (self, bar) => 'X' + bar + self.fooVariable,
-    doSomething: (self) => String.toLowerCase(self.fooVariable + self.nodeVariable + call(self.getValueX, 'bing')),
-    
-    __call__: (self) => call(self.doSomething)
+Since EEL can only be written in single expressions (which is fine - as we don't need a full-blown language), it can sometimes get to compressed, and one ends up with one line were many EEL helpers are used. I think it would be fun to have a way to variables and even extract closures.
+
+May I present: When you mix Python + Javascript + EEL, you got:
+
+```ts
+root = ${proxy({
+    propertY: 'I cannot reference "self"',
+    propertX: q(node).property('title'),
+
+    process: (self, var) => String.replace('foo', 'bar', String.toLowerCase(var)),
+    something: (self) => self.process("Foo Hello World") + String.length(self.propertY),
+
+    init: (self) => self.something() + self.propertX
 })}
 ```
 
-`__call__` is the entry point and called automatically by `call()`
+When `init` is specified, it will be automatically called. So it can't take user defined arguments.
+If `init` is not defined. The proxy `self` will be returned by `proxy()`
 
--------
+so you could do:
 
-technically we don't need a `call` function but only a `newObject` function that would be used like:
+```ts
+root = Neos.Fusion:Component {
+    helper = ${proxy({
+        greet: (self, name) => "hello " + name
+    })}
 
+    renderer = afx`
+        {props.helper.greet('Me')}
+    `
+}
 ```
-root = ${(newObject({
-    fooVariable: 'FOO',    
-    getValueX: (self) => 'X' + self.fooVariable,
-    __call__: (self) => (self.getValueX)())
-}))()}
-```
-
-`newObject` would wrapped the passed associative array into a proxy array access object which also implements the php `__invoke` method which would call `($this->object['__call__'])()`
-
-
-but we don't have the `($varibale)()` syntax in eel yet.

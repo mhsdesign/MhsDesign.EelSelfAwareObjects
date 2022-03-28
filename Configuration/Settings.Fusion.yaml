@@ -1,4 +1,4 @@
 Neos:
   Fusion:
     defaultContext:
-      call: MhsDesign\EelSelfAwareObjects\Call::call
+      proxy: MhsDesign\EelSelfAwareObjects\SelfAwareObjectProxy::fromAssosiativeArray
