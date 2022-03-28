@@ -1,6 +1,6 @@
 # MhsDesign.EelSelfAwareObjects
 
-!!! EXPERIMENTAL Package to tackle the problem of not having a good way to extract variables in eel.
+> !!! EXPERIMENTAL Package to tackle the problem of not having a good way to extract variables in eel.
 
 
 this will you allow writing crazy things:
@@ -21,14 +21,17 @@ root = ${call({
 
 -------
 
-technically we don't need a `call` function but only a `makeObjectSelfAwareAndCallable` function that would be used like:
+technically we don't need a `call` function but only a `newObject` function that would be used like:
 
 ```
-root = ${(makeObjectSelfAwareAndCallable({
+root = ${(newObject({
     fooVariable: 'FOO',    
     getValueX: (self) => 'X' + self.fooVariable,
     __call__: (self) => (self.getValueX)())
 }))()}
 ```
+
+`newObject` would wrapped the passed associative array into a proxy array access object which also implements the php `__invoke` method which would call `($this->object['__call__'])()`
+
 
 but we don't have the `($varibale)()` syntax in eel yet.
