@@ -7,7 +7,7 @@ this will allow you to use objects a bit like you're used to from javascript-wor
 
 Since EEL can only be written in single expressions (which is fine - as we don't need a full-blown language), it can sometimes get to compressed, and one ends up with one line were many EEL helpers are used. I think it would be fun to have a way to variables and even extract closures.
 
-May I present: When you mix Python + Javascript + EEL, you got:
+May I present: When you mix Python + Javascript + EEL, you get:
 
 ```ts
 root = ${proxy({
@@ -24,7 +24,7 @@ root = ${proxy({
 When `init` is specified, it will be automatically called. So it can't take user defined arguments.
 If `init` is not defined. The proxy `self` will be returned by `proxy()`
 
-so you could do:
+so you can do the following:
 
 ```ts
 root = Neos.Fusion:Component {
