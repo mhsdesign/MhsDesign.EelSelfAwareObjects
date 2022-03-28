@@ -1,0 +1,18 @@
+{
+    "description": "",
+    "type": "neos-package",
+    "name": "mhsdesign/eelselfawareobjects",
+    "require": {
+        "neos/flow": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MhsDesign\\EelSelfAwareObjects\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "MhsDesign.EelSelfAwareObjects"
+        }
+    }
+}

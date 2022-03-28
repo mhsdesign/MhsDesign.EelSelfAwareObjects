@@ -1,0 +1,4 @@
+Neos:
+  Fusion:
+    defaultContext:
+      call: MhsDesign\EelSelfAwareObjects\Call::call
